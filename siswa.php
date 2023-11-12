@@ -1,44 +1,47 @@
+<?php
+session_start();
 
-<h5>Halaman Siswa</h5>
-<a href="?url=tambah-siswa" class="btn btn-primary">Tambah Siswa</a>
-<hr>
+if(empty($_SESSION['nisn'])){
+    echo "<script> alert ('Maaf Anda Perlu Login Terlebih Dahulu'); 
+       window.location.assign('../index.php');
+       </script>";
+}
 
-<table class="table table-striped table-bordered">
-    <tr class="fw-bold">
-        <td>NO</td>
-        <td>NISN</td>
-        <td>NIS</td>
-        <td>Nama</td>
-        <td>Kelas</td>
-        <td>Alamat</td>
-        <td>No.Telp</td>
-        <td>SPP</td>
-        <td>Edit</td>
-        <td>Hapus</td>
-    </tr>
-    <?php
-    include '../koneksi.php';
-    $no = 1;
-    $sql = "SELECT * FROM siswa,spp,kelas WHERE siswa.id_kelas=kelas.id_kelas AND siswa.id_spp=spp.id_spp
-    ORDER BY nama_siswa ASC";
-    $query = mysqli_query($koneksi,$sql);
-    foreach($query as $data){ ?>
-    <tr>
-        <td><?= $no++;?></td>
-        <td><?= $data['nisn']?></td>
-        <td><?= $data['nis']?></td>
-        <td><?= $data['nama_siswa']?></td>
-        <td><?= $data['nama_kelas']?></td>
-        <td><?= $data['alamat']?></td>
-        <td><?= $data['telp']?></td>
-        <td><?= $data['tahun']?> - <?= number_format($data['nominal'],2,',','.');?></td>
-        <td>
-            <a href="?url=edit-siswa&nisn=<?= $data['nisn']?>" class="btn btn-warning">EDIT</a>
-        </td>
-        <td>
-            <a onclick="return confirm('Apakah anda yakin?')" href="?url=hapus-siswa&nisn=<?= $data['nisn']?>" class="btn btn-danger">HAPUS</a>
-        </td>
-    </tr>
-    <?php } ?>
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISWA</title>
+    <link href = "../assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h3>APLIKASI PEMBAYARAN SPP</h3>
+        <div class="alert alert-info">
+            Anda Login Sebagai siswa <b><?=  $_SESSION['nama_siswa']?></b> Aplikasi Pembayaran SPP.
+        </div>
+        <a href="siswa.php" class="btn btn-primary">Siswa</a>
+        <a href="siswa.php?url=logout" class="btn btn-primary">Logout</a>
 
-</table>
+        <div class="card mt-2">
+            <div class="card-body">
+                <?php 
+                $file = @$_GET['url'];
+                if(empty($file)){
+                    echo "<h4>Selamat Datang Di Halaman Siswa</h4>";
+                    echo "Pembayaran SPP digunakan untuk mempermudah  dalam mencatat pembayaran siswa / siswi di sekolah";
+                    echo "<hr>";
+                    include 'history-bayar.php';
+                }else{
+                    include $file.'.php';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

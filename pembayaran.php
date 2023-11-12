@@ -23,7 +23,7 @@
     ORDER BY nama_siswa ASC";
     $query = mysqli_query($koneksi,$sql);
     foreach($query as $data){ 
-        $data_pembayaran = mysqli_query($conn, "SELECT SUM(jumlah_bayar) as jumlah_bayar FROM
+        $data_pembayaran = mysqli_query($koneksi, "SELECT SUM(jumlah_bayar) as jumlah_bayar FROM
         pembayaran WHERE nisn='$data[nisn]'");
         $data_pembayaran= mysqli_fetch_array($data_pembayaran);
         $sdh_byr=$data_pembayaran['jumlah_bayar'];

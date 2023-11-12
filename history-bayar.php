@@ -1,5 +1,5 @@
 <?php
-$nisn = $_GET['nisn'];
+$nisn = $_SESSION['nisn'];
 ?>
 <h5>History Pembayaran</h5>
 
@@ -16,7 +16,6 @@ $nisn = $_GET['nisn'];
         <td>Sudah Dibayar</td>
         <td>Tanggal Bayar</td>
         <td>Petugas</td>
-        <td>Hapus</td>
     </tr>
     <?php
     include '../koneksi.php';
@@ -40,9 +39,6 @@ $nisn = $_GET['nisn'];
         <td><?= $data['tgl_bayar']?></td>
         <td><?= $data['nama_petugas']?></td>
 
-        <td>
-            <a href="?url=hapus-bayar&id_pembayaran=<?= $data['id_pembayaran']?>" class="btn btn-danger">Hapus</a>
-        </td>
     </tr>
     <?php } ?>
 
